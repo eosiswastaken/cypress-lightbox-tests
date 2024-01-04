@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Caesar Cipher</title>
+</head>
+
+<body class="font-sans bg-zinc-300">
+    <div class="h-screen w-full flex justify-center items-center">
+        <div x-data="cipherObject()" class="flex flex-col w-1/5 bg-slate-50 p-6">
+            <p data-cy="title" class="text-zinc-950 font-bold">Caesar Cipher</p>
+            <p class="text-slate-600 mb-5">Vanilla JS</p>
+            <p class="mb-1">Cypher Key</p>
+            <input data-cy="key" x-mask="99" x-model="key" class="bg-slate-300 mb-2 h-12" />
+            <p class="mb-1">Cypher Text</p>
+            <input data-cy="message" type="text" x-model="message" class="bg-slate-300 mb-4 h-36" />
+            <button data-cy="button" @click="cipherMessage()"
+                class="bg-blue-600 p-5 text-lg text-slate-50">Cipher</button>
+            <p data-cy="cipheredMessage" data-cy="title" class="text-green-700" x-text="cipheredMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        function cipherObject() {
+            return {
+                message: "",
+                key: 0,
+                cipheredMessage: "",
+
+                cipherMessage() {
+                    splitted = this.message.toLowerCase().split('')
+                    while (this.key > 25) { this.key -= 25 }
+                    ciphered = splitted.map((letter, index) => {
+                        if (alphabet.includes(letter)) {
+                            position = alphabet.indexOf(letter)
+                            cipheredPosition = position + parseInt(this.key)
+                            if (cipheredPosition > 25) { cipheredPosition -= 25 }
+                            return alphabet[cipheredPosition]
+                        } else {
+                            return letter
+                        }
+                    })
+                    this.cipheredMessage = ciphered.join('')
+                },
+            };
+        }
+    </script>
+</body>
+
+</html>
