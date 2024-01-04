@@ -2,6 +2,9 @@ describe('lightbox spec', () => {
   it('lightbox opens when clicking on image', () => {
     cy.visit('../../lightbox.html')
 
+    cy.get('[data-cy="image"]').click()
+    cy.get('[data-cy="lightbox"').should('be.visible')
+
 
 
   })
@@ -9,6 +12,9 @@ describe('lightbox spec', () => {
   it('lightbox closes when clicking outside lightbox', () => {
     cy.visit('../../lightbox.html')
 
+    cy.get('[data-cy="image"]').click()
+    cy.get('body').click(0,0)
+    cy.get('[data-cy="lightbox"').should('not.be.visible')
 
 
   })
@@ -16,7 +22,11 @@ describe('lightbox spec', () => {
   it('like counter updates in the overlay and in the lightbox when liking', () => {
     cy.visit('../../lightbox.html')
 
-
+    cy.get('[data-cy="image"]').click()
+    cy.get('[data-cy="likebutton"]').click()
+    cy.get('[data-cy="likescount-lightbox"]').should('have.text',"1")
+    cy.get('body').click(0,0)
+    cy.get('[data-cy="likescount-overlay"]').should('have.text',"1")
 
   })
   
